@@ -14,21 +14,50 @@
         "id_telegram": "309489692",
         "numero": "5581997307749"
     },
-  
-  
+    "otacilion": {
+        "id_pagamento": "",
+        "id_telegram": "",
+        "numero": "5581999597078"
+    },
+    "bandeira": {
+        "id_pagamento": "d60df38d60b44d5f8754374bdb4f554f",
+        "id_telegram": "791150330",
+        "numero": "5581996266446"
+    },
+    "791150330": {
+        "id_pagamento": "d60df38d60b44d5f8754374bdb4f554f",
+        "id_telegram": "791150330",
+        "username": "bandeira",
+         "payments" : {
+           "value": 0,
+           "place": ""
+         }      
+    },
     "420728565": {
         "id_pagamento": "039662d78b5d45d486a56196037c5213",
         "id_telegram": "420728565",
-        "username": "michaelbarney"
+        "username": "michaelbarney",
+         "payments" : {
+           "value": 0,
+           "place": ""
+         }
     },
     "119447460": {
         "id_pagamento": "3ffe8e0226e4413a82e0bfaf5c9df243",
         "username": "penelopearaujo",
-        "numero": "5581997513631"
+        "numero": "5581997513631",
+         "payments" : {
+           "value": 0,
+           "place": ""
+         }
     },
     "309489692": {
         "id_pagamento": "a594d1ca98824957b529fadb54e8a1c4",
         "username": "izabelacmelo",
-        "numero": "5581997307749"
+        "numero": "5581997307749",
+         "payments" : {
+           "value": 0,
+           "place": ""
+         }
     }
 }

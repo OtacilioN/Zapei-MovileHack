@@ -9,7 +9,8 @@ const express = require('express');
 const app = express();
 const request = require('request');
 const https = require('https');
-
+const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+let key = "zpk_test_EzCkzFFKibGQU6HFq7EYVuxI";
 //qrcodes
 const qr = require('qr-image');
 const QrCode = require('qrcode-reader');
@@ -54,20 +55,46 @@ app.post('/comanda', (req, res) => {
   
   let id_pagamento_to = bd[id_telegram_to].id_pagamento;
   let id_pagamento_from = bd[id_telegram_from].id_pagamento;
-  let username_from = bd[id_telegram_from].username;
-  let number_to = bd[id_telegram_to].numero;
+  let username_to = bd[id_telegram_to].username;
+  let number_from = bd[id_telegram_to].numero;
 
   //Make the payment, send the SMS message and send a telegram message
   transferP2P(id_pagamento_from, id_pagamento_to, value);
-  sendMessage(id_telegram_to, "Você recebeu " + String(value) + " reais de " + username_from);
-  sendSMS("Você recebeu " + String(value) + " reais de " + username_from, number_to); 
+  sendMessage(id_telegram_from, "Você pagou " + String(value) + " para @" + username_to);
+  sendSMS("Você pagou " + String(value) + " para " + username_to, number_from);
+  bd[id_telegram_from].payments.value = 0;
+  return res.status(200).send("DONE"); 
+});
+//Webhook for payment updates
+app.post('/update', (req, res) => {
+  console.log("UPDATE");
+  let body = req.body; 
+  let value = body.value;
+  console.log(value);
+  let thing = body.name;
+  let id_telegram_to = body.id_to;
+  let id_telegram_from = body.id_from;
+  
+  let id_pagamento_to = bd[id_telegram_to].id_pagamento;
+  let id_pagamento_from = bd[id_telegram_from].id_pagamento;
+  let username_to = bd[id_telegram_to].username;
+  let number_from = bd[id_telegram_to].numero;
+
+  //Make the payment, send the SMS message and send a telegram message
+  bd[id_telegram_from].payments.value = bd[id_telegram_from].payments.value + value;
+  bd[id_telegram_from].payments.place = id_telegram_to;
+    
+
+  sendMessage(id_telegram_from, "Uma " + String(thing) + " custando R$" + String(value) + " foi adicionado à sua comanda.");
+  
+  return res.status(200).send("DONE"); 
 });
 
 //Webhook for telegram messages
 app.post('/', (req, res) => {
   let body = req.body;
   let ID = body.message.from.id; //The Telegram Sender ID
-
+  console.log("ID: " + String(ID));
   if (body.message.text){ //TEXT
     let text = body.message.text
     getDialog(ID, text);
@@ -134,7 +161,7 @@ async function getDialog(id, text){
     // Send request and get results
     const responses = await sessionClient.detectIntent(dialogflow_request);
     if (responses[0].queryResult.action){ //Process any given
-      await processAction(id, responses[0].queryResult.action, responses[0].queryResult.parameters)
+      await processAction(id, responses[0].queryResult.action, responses[0].queryResult.parameters, responses[0].queryResult)
     }
   
     //Itirate between each response message, sending them accordingly
@@ -172,7 +199,7 @@ async function doGetResponse(options){
 
 //Process message actions
 //Receives the sender_id, the action to be processed and its parameters
-async function processAction(sessionId, action, parameters){
+async function processAction(sessionId, action, parameters, queryResult){
   
   //Generate a frictionles qrcode
   if (action === "gerarComanda"){
@@ -194,22 +221,58 @@ async function processAction(sessionId, action, parameters){
     await doGetResponse(options);
   }
   
+  else if (action === "fecharComanda"){
+    let id_telegram_to = bd[sessionId].payments.place;
+    if (id_telegram_to && bd[sessionId].payments.value > 0){
+      let id_pagamento_to = bd[id_telegram_to].id_pagamento;
+      let id_pagamento_from = bd[sessionId].id_pagamento;
+      let username_to = bd[id_telegram_to].username;
+      let number_from = bd[id_telegram_to].numero;
+
+      //Make the payment, send the SMS message and send a telegram message
+      transferP2P(id_pagamento_from, id_pagamento_to, bd[sessionId].payments.value);
+      sendMessage(sessionId, "Você pagou R$" + String(parseInt(bd[sessionId].payments.value))  + " para " + username_to);
+      sendSMS("Você pagou " + String(parseInt(bd[sessionId].payments.value)) + " para " + username_to, number_from);
+      bd[sessionId].payments.value = 0;
+    }
+    else{
+      sendMessage(sessionId, "Nenhum valor foi cobrado.");
+    }
+  }
+  
+  else if (action == "getSaldo"){
+    console.log("GET SALDO");
+    marketplace = typeof marketplace !== 'undefined' ?  marketplace : "3249465a7753536b62545a6a684b0000";
+    authuser = typeof authuser !== 'undefined' ? authuser : "zpk_test_EzCkzFFKibGQU6HFq7EYVuxI";
+    let seller_id = bd[sessionId].id_pagamento;
+    var seller_info = seeBuyer(seller_id);
+    console.log(seller_info);
+    sendMessage(sessionId, "Seu saldo é: R$" + String(seller_info['current_balance']));
+  }
+  
   //Make a P2P payment
   else if (action === "pagamento"){
+    console.log("PAGAMENTO");
     var value = 7;
     var name = "";
+    console.log("go");
+    if(queryResult.outputContexts[0]){
+      console.log(queryResult.outputContexts[0].parameters);
+      name = queryResult.outputContexts[0].parameters.fields['any.original'].stringValue;
+      value = queryResult.outputContexts[0].parameters.fields['number.original'].stringValue;
+    }
     //Get the value and the senders username
     if (parameters.fields.number){
       value = parameters.fields.number.numberValue;
-      console.log("value")
+      console.log("value found")
     }
     if (parameters.fields.any){
-       console.log("any");
+       console.log("any found");
        name = parameters.fields.any.stringValue.replace("@", "");
     }
     
     //Check if Name was found
-    if (bd.hasOwnProperty(name)){
+    if (bd.hasOwnProperty(name) && name.length > 0 && value){
       
       //Get necessary ID's, usernames and phonenumbers from 'Database'
       let id_pagamento_to = bd[name].id_pagamento;
@@ -220,7 +283,7 @@ async function processAction(sessionId, action, parameters){
       
       //Make the payment, send the SMS message and send a telegram message
       transferP2P(id_pagamento_from, id_pagamento_to, value);
-      sendMessage(id_telegram_to, "Você recebeu " + String(value) + " reais de " + username_from);
+      sendMessage(id_telegram_to, "Você recebeu " + String(value) + " reais de @" + username_from);
       sendSMS("Você recebeu " + String(value) + " reais de " + username_from, number_to);
     }
   }
@@ -234,7 +297,7 @@ function pay(from_id, to_id, value){
   let username_from = bd[from_id].username;
   let number_to = bd[to_id].numero;
   transferP2P(id_pagamento_from, id_pagamento_to, value);
-  sendMessage(to_id, "Você recebeu " + String(value) + " reais de " + username_from);
+  sendMessage(to_id, "Você recebeu " + String(value) + " reais de @" + username_from);
   sendSMS("Você recebeu " + String(value) + " reais de " + username_from, number_to);
 }
 
@@ -251,7 +314,7 @@ function transferP2P(owner, receiver, value){
   
   var options = { method: 'POST',
     url: 'https://api.zoop.ws/v2/marketplaces/' + marketplace + '/transfers/' + owner + '/to/' + receiver,
-    body: { amount: value },
+    body: { amount: value*100 },
     json: true,
     headers: {"Authorization": auth}};
   
@@ -276,7 +339,6 @@ async function sendSMS(message, number){
                 'Content-Type': 'application/json'
             }
         })  
-        console.log(response)
         return response;
     }catch(error){
         console.log(error)
@@ -284,7 +346,38 @@ async function sendSMS(message, number){
     }
 }
 
-
+//Saldo
+function seeBuyer(buyer_id) {
+  var xhr = new XMLHttpRequest();
+  xhr.withCredentials = true;
+  
+  xhr.open("GET", "https://api.zoop.ws/v1/marketplaces/"+ marketplace + "/buyers/" + buyer_id, false, key);
+  xhr.send(false);
+  
+  if (xhr.status >= 200 && xhr.status < 300) {
+    return JSON.parse(xhr.responseText);
+  }
+  else {
+    console.log(xhr.status);
+    //return JSON.parse(xhr.responseText);
+    return seeSeller(buyer_id);
+  }
+}
+function seeSeller(buyer_id) {
+  var xhr = new XMLHttpRequest();
+  xhr.withCredentials = true;
+  
+  xhr.open("GET", "https://api.zoop.ws/v1/marketplaces/"+ marketplace + "/sellers/" + buyer_id, false, key);
+  xhr.send(false);
+  
+  if (xhr.status >= 200 && xhr.status < 300) {
+    return JSON.parse(xhr.responseText);
+  }
+  else {
+    console.log(xhr.status);
+    return JSON.parse(xhr.responseText);
+  }
+}
 /***************USEFULL SNIPPETS*********************/
 // let de = '039662d78b5d45d486a56196037c5213';
 // let para = '3ffe8e0226e4413a82e0bfaf5c9df243'
