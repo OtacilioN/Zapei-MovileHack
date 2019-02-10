@@ -1,12 +1,13 @@
 //
-// # SimpleServer
+// # ZAPEI
 //
-// A simple chat server using Socket.IO, Express, and Async.
+// A Chatbot for P2P and Frictionless Payments
 //
+
+//Modules
 const express = require('express');
 const app = express();
 const request = require('request');
-const dialogflow = require('dialogflow');
 const https = require('https');
 
 //qrcodes
@@ -22,6 +23,7 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 }));
 
 //Dialogflow
+const dialogflow = require('dialogflow')
 const projectId = 'zapei-80d3d';
 const languageCode = 'pt-BR';
 
@@ -29,36 +31,31 @@ const languageCode = 'pt-BR';
 let TELEGRAM_TOKEN = "646793165:AAEkrhpby9yFrbtbtJ1Agl9anLDXqGu1dtg"
 let URL = "http://api.telegram.org/bot" + TELEGRAM_TOKEN
 
-//JSON Control Files
+//JSON Control File
 let fs = require('fs');
 let bd_file = './bd.json';
 let bd = require(bd_file);
 
 // Listen to the App Engine-specified port, or 8080 otherwise
 const PORT = 3000; 
-
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}...`);
 });
-
 app.use('/public', express.static(__dirname + '/public'));
 
 
 //Routes
 app.post('/', (req, res) => {
   let body = req.body;
-  console.log(body)
-   let ID = body.message.from.id;
+  let ID = body.message.from.id; //The Telegram Sender ID
 
-  if (body.message.text){
+  if (body.message.text){ //TEXT
     let text = body.message.text
-    getDialog(body.message.from.id, text);
+    getDialog(ID, text);
   }
-  else if (body.message.photo){
-    console.log(body.message.photo);
-    console.log("OI");
-    console.log(body.message.photo[0].file_id)
+  else if (body.message.photo){ //PHOTO (POTENTIALLY QR)
 
+    //GET RECEIVED PHOTO ID
     var options = { method: 'GET',
     url: 'https://api.telegram.org/bot646793165:AAEkrhpby9yFrbtbtJ1Agl9anLDXqGu1dtg/getFile',
     qs: 
@@ -68,17 +65,15 @@ app.post('/', (req, res) => {
        'cache-control': 'no-cache' } };
 
     request(options, function (error, response, body) {
-      console.log("midle - photo");
-      console.log(JSON.parse(response.body).result.file_path);
       let url = "https://api.telegram.org/file/bot646793165:AAEkrhpby9yFrbtbtJ1Agl9anLDXqGu1dtg/" + JSON.parse(response.body).result.file_path
       console.log(url);
+      
+      //READ THE QR Code
       Jimp.read(url, function(err, image) {
         if (err) {
             console.error(err);
-            console.log("error img");
             return true;
         }
-        console.log("GO!");
         var qr = new QrCode();
         qr.callback = function(err, value) {
             if (err) {
@@ -86,11 +81,8 @@ app.post('/', (req, res) => {
                 console.log("error qr");
             } 
             else {
-                console.log(value.result);
-              console.log("UOU");
-              console.log(ID);
+                //Make a payment between sender ID and the QRCode ID
                 pay(ID, value.result, 10);
-                
             }
         }
         qr.decode(image.bitmap);
@@ -101,12 +93,14 @@ app.post('/', (req, res) => {
 });
 
 //Functions
+
+//Get Dialogflow answers
+//Receives the sender ID and the text to be processed
 async function getDialog(id, text){
-    console.log("Session ID: " + String(id));
+    //Dialogflow Client
     const sessionClient = new dialogflow.SessionsClient();
-    console.log("a");
     const sessionPath = sessionClient.sessionPath(projectId, String(id));
-    console.log("b");
+  
     // The text query request.
     const dialogflow_request = {
       session: sessionPath,
@@ -117,36 +111,25 @@ async function getDialog(id, text){
         },
       },
     };
-    console.log("c");
 
-    // Send request and log result
-    console.log("asked for dialog");
+    // Send request and get results
     const responses = await sessionClient.detectIntent(dialogflow_request);
-    console.log("dialog received");
-    console.log(responses);
-    console.log("changed lala");
-    console.log(responses);
-     console.log("222");
-    if (responses[0].queryResult.action){
-      console.log("aaaaaa");
+    if (responses[0].queryResult.action){ //Process any given
       await processAction(id, responses[0].queryResult.action, responses[0].queryResult.parameters)
     }
   
+    //Itirate between each response message, sending them accordingly
     for (var i in responses[0].queryResult.fulfillmentMessages) {
         let result = responses[0].queryResult.fulfillmentMessages[i];
-        console.log(result);
         if (result.text && result.platform == "TELEGRAM"){
-            console.log("TEXT");
-            console.log(result.text);
             await sendMessage(id, result.text.text[0]);
         }
     }
 }
+
+//Send a telegram message,
+//Receives the sender_id and the text to be sent
 async function sendMessage(chat_id, text){
-    let url = URL + "/sendMessage?chat_id=" + chat_id + "&text=" + text
-    var encoded_url = encodeURI(url);
-    console.log(encoded_url);
-    
     var options = { method: 'GET',
       url: 'https://api.telegram.org/bot646793165:AAEkrhpby9yFrbtbtJ1Agl9anLDXqGu1dtg/sendMessage',
       qs: 
@@ -155,31 +138,31 @@ async function sendMessage(chat_id, text){
       headers: 
        { 'Postman-Token': 'fb1fa06f-a502-4938-ab88-60ff333d2b11',
          'cache-control': 'no-cache' } };
-
-    console.log("run");
     await doGetResponse(options);
-    console.log("ended");
 }
 
+//Make a Get Request -> Promise
+//Receives the request options
 async function doGetResponse(options){
   return new Promise(function (resolve, reject) {
       request(options, function (error, response, body) {
          resolve(body);
-        console.log("midle");
       });
     });
 }
 
+//Process message actions
+//Receives the sender_id, the action to be processed and its parameters
 async function processAction(sessionId, action, parameters){
-  console.log("ACTIONN");
+  
+  //Generate a frictionles qrcode
   if (action === "gerarComanda"){
-    console.log("GERAR COMANDA");
     var qr_png = qr.image(String(sessionId), { type: 'png' });
     qr_png.pipe(require('fs').createWriteStream('public/' + String(sessionId) +'.png'));
     var png_string = qr.imageSync(String(sessionId), { type: 'png' });
-    
     let pngurl = "https://kkjds-michaelbarneyjunior439169.codeanyapp.com/public/"+String(sessionId)+".png"
-    console.log(pngurl);
+    
+    //Send it to the senders chat
     var options = { method: 'GET',
       url: 'https://api.telegram.org/bot646793165:AAEkrhpby9yFrbtbtJ1Agl9anLDXqGu1dtg/sendPhoto',
       qs: 
@@ -189,55 +172,44 @@ async function processAction(sessionId, action, parameters){
        { 'Postman-Token': 'fb1fa06f-a502-4938-ab88-60ff333d2b11',
          'cache-control': 'no-cache' } };
 
-    console.log("run");
     await doGetResponse(options);
-    console.log("ended");
   }
+  
+  //Make a P2P payment
   else if (action === "pagamento"){
-    console.log("PAGAMENTO!");
     var value = 7;
-    var name = ""
-    console.log(parameters);
+    var name = "";
+    //Get the value and the senders username
     if (parameters.fields.number){
       value = parameters.fields.number.numberValue;
       console.log("value")
     }
     if (parameters.fields.any){
        console.log("any");
-       name = parameters.fields.any.stringValue.replace("@", "");;
+       name = parameters.fields.any.stringValue.replace("@", "");
     }
-    console.log(value);
-    console.log(name);
-    console.log(bd);
+    
+    //Check if Name was found
     if (bd.hasOwnProperty(name)){
-      console.log("TEEEEMM");
+      
+      //Get necessary ID's, usernames and phonenumbers from 'Database'
       let id_pagamento_to = bd[name].id_pagamento;
       let id_telegram_to = bd[name].id_telegram;
-      
-      console.log(id_pagamento_to);
-      console.log(id_telegram_to);
-      
       let id_pagamento_from = bd[sessionId].id_pagamento;
       let username_from = bd[sessionId].username;
-      console.log(id_pagamento_from);
       let number_to = bd[id_telegram_to].numero;
       
+      //Make the payment, send the SMS message and send a telegram message
       transferP2P(id_pagamento_from, id_pagamento_to, value);
       sendMessage(id_telegram_to, "Você recebeu " + String(value) + " reais de " + username_from);
       sendSMS("Você recebeu " + String(value) + " reais de " + username_from, number_to);
     }
-    else{
-      console.log("NAO TEEM");
-    }
-    
-    //FAZER O PAGAMENTO
   }
 }
 
 
-//PAGAMENTO
+//Make a QR Code payment
 function pay(from_id, to_id, value){
-  console.log("PAY");
   let id_pagamento_from = bd[from_id].id_pagamento;
   let id_pagamento_to = bd[to_id].id_pagamento;
   let username_from = bd[from_id].username;
@@ -247,6 +219,7 @@ function pay(from_id, to_id, value){
   sendSMS("Você recebeu " + String(value) + " reais de " + username_from, number_to);
 }
 
+//Make a simple P2P payment
 global.btoa = function (str) {return new Buffer.from(str).toString('base64');};
 function transferP2P(owner, receiver, value){
   // https://www.haykranen.nl/2011/06/21/basic-http-authentication-in-node-js-using-the-request-module/
@@ -264,17 +237,14 @@ function transferP2P(owner, receiver, value){
     headers: {"Authorization": auth}};
   
   request(options, function (error, response, body) {
-    if (error) throw new Error(error);
-  
-    console.log(body);
+    if (error) throw new Error(error);  
   });
 }
 
 
-//SMS
+//Send confirmation SMS
 const axios = require('axios');
 const accessKey = 'ak-023453';
-
 async function sendSMS(message, number){
     const data = {
         to: number,
@@ -296,6 +266,7 @@ async function sendSMS(message, number){
 }
 
 
+/***************USEFULL SNIPPETS*********************/
 // let de = '039662d78b5d45d486a56196037c5213';
 // let para = '3ffe8e0226e4413a82e0bfaf5c9df243'
 // let para2 = 'a594d1ca98824957b529fadb54e8a1c4'
@@ -304,8 +275,6 @@ async function sendSMS(message, number){
 // console.log(transferP2P(de, para, valor))
 // console.log(transferP2P(de, para2, valor))
 // console.log(transferP2P(de, para3, valor))
-
-
 
 //https://api.telegram.org/bot646793165:AAEkrhpby9yFrbtbtJ1Agl9anLDXqGu1dtg/setWebhook?url=https://kkjds-michaelbarneyjunior439169.codeanyapp.com/
 //https://api.telegram.org/bot646793165:AAEkrhpby9yFrbtbtJ1Agl9anLDXqGu1dtg/deleteWebhook
