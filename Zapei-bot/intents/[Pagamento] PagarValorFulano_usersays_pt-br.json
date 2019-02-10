@@ -1,0 +1,179 @@
+[
+  {
+    "id": "ab03aa51-bb23-4d74-8b3f-e917ab6dee1e",
+    "data": [
+      {
+        "text": "BLASTER",
+        "userDefined": false
+      }
+    ],
+    "isTemplate": false,
+    "count": 0
+  },
+  {
+    "id": "38b4e4a9-f6c3-40d0-8c0e-de64417df9a9",
+    "data": [
+      {
+        "text": "pagar a @",
+        "userDefined": false
+      },
+      {
+        "text": "izabelacmelo",
+        "alias": "any",
+        "meta": "@sys.any",
+        "userDefined": true
+      },
+      {
+        "text": " ",
+        "userDefined": false
+      },
+      {
+        "text": "1000",
+        "alias": "number",
+        "meta": "@sys.number",
+        "userDefined": true
+      },
+      {
+        "text": " reais",
+        "userDefined": false
+      }
+    ],
+    "isTemplate": false,
+    "count": 0
+  },
+  {
+    "id": "5c24373c-c558-4afd-ac7b-2bc0dbbc9226",
+    "data": [
+      {
+        "text": "pagar @",
+        "userDefined": false
+      },
+      {
+        "text": "izabelacmelo",
+        "alias": "any",
+        "meta": "@sys.any",
+        "userDefined": true
+      },
+      {
+        "text": " ",
+        "userDefined": false
+      },
+      {
+        "text": "1000",
+        "alias": "number",
+        "meta": "@sys.number",
+        "userDefined": true
+      }
+    ],
+    "isTemplate": false,
+    "count": 0
+  },
+  {
+    "id": "e5080e0f-b2f4-4d7c-a396-956f5cc826eb",
+    "data": [
+      {
+        "text": "pagar ",
+        "userDefined": false
+      },
+      {
+        "text": "12",
+        "alias": "number",
+        "meta": "@sys.number",
+        "userDefined": true
+      },
+      {
+        "text": " @",
+        "userDefined": false
+      },
+      {
+        "text": "usuario",
+        "alias": "any",
+        "meta": "@sys.any",
+        "userDefined": true
+      }
+    ],
+    "isTemplate": false,
+    "count": 1
+  },
+  {
+    "id": "093f7679-90ce-47ef-9bfe-63f28e67b27e",
+    "data": [
+      {
+        "text": "pagar ",
+        "userDefined": false
+      },
+      {
+        "text": "12",
+        "alias": "number",
+        "meta": "@sys.number",
+        "userDefined": true
+      },
+      {
+        "text": " a @",
+        "userDefined": false
+      },
+      {
+        "text": "usuario",
+        "alias": "any",
+        "meta": "@sys.any",
+        "userDefined": true
+      }
+    ],
+    "isTemplate": false,
+    "count": 0
+  },
+  {
+    "id": "927d3331-d139-4c16-b1ef-429cacf6cbe5",
+    "data": [
+      {
+        "text": "vou pagar ",
+        "userDefined": false
+      },
+      {
+        "text": "12",
+        "alias": "number",
+        "meta": "@sys.number",
+        "userDefined": true
+      },
+      {
+        "text": " a @",
+        "userDefined": false
+      },
+      {
+        "text": "usuario",
+        "alias": "any",
+        "meta": "@sys.any",
+        "userDefined": true
+      }
+    ],
+    "isTemplate": false,
+    "count": 0
+  },
+  {
+    "id": "4f0fb8e7-64b1-4636-bdd9-b4148f4353c2",
+    "data": [
+      {
+        "text": "quero pagar ",
+        "userDefined": false
+      },
+      {
+        "text": "12",
+        "alias": "number",
+        "meta": "@sys.number",
+        "userDefined": true
+      },
+      {
+        "text": " reais a @",
+        "userDefined": false
+      },
+      {
+        "text": "usuario",
+        "alias": "any",
+        "meta": "@sys.any",
+        "userDefined": true
+      }
+    ],
+    "isTemplate": false,
+    "count": 0
+  }
+]
