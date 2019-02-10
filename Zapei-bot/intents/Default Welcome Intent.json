@@ -1,0 +1,48 @@
+{
+  "id": "b49967d8-a972-4688-bb31-de468a6b5892",
+  "name": "Default Welcome Intent",
+  "auto": true,
+  "contexts": [],
+  "responses": [
+    {
+      "resetContexts": false,
+      "action": "input.welcome",
+      "affectedContexts": [],
+      "parameters": [],
+      "messages": [
+        {
+          "type": 3,
+          "platform": "telegram",
+          "lang": "pt-br"
+        },
+        {
+          "type": 0,
+          "lang": "pt-br",
+          "speech": [
+            "Olá! ;)",
+            "Oi! ;)",
+            "Oie! ;)"
+          ]
+        },
+        {
+          "type": 0,
+          "lang": "pt-br",
+          "speech": "Você pode enviar \"gerar\" para abrir sua comanda ou \"pagar\" para realizar uma transferência. Qual ação você deseja realizar?"
+        }
+      ],
+      "defaultResponsePlatforms": {
+        "telegram": true
+      },
+      "speech": []
+    }
+  ],
+  "priority": 500000,
+  "webhookUsed": false,
+  "webhookForSlotFilling": false,
+  "fallbackIntent": false,
+  "events": [
+    {
+      "name": "WELCOME"
+    }
+  ]
+}

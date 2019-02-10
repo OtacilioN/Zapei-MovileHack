@@ -1,0 +1,24 @@
+[
+  {
+    "id": "9ec52137-f3e6-461c-a084-3ba1fe8efa63",
+    "data": [
+      {
+        "text": "QUanto eu tenho?",
+        "userDefined": false
+      }
+    ],
+    "isTemplate": false,
+    "count": 0
+  },
+  {
+    "id": "90412f0c-9016-4893-8b6c-fc54e7dd7eb1",
+    "data": [
+      {
+        "text": "Quanto está meu saldo?",
+        "userDefined": false
+      }
+    ],
+    "isTemplate": false,
+    "count": 0
+  }
+]
