@@ -1,0 +1,80 @@
+Cartoes bons
+Número	Bandeira
+
+4539 0033 7072 5497     Visa (Digitada)
+
+4761 3400 0000 0035     Visa (Chip & PIN)
+
+4716 5888 3636 2104     Visa (Tarja)
+
+4532 6501 0413 7832     Visa Electron (Débito)
+
+5356 0663 2027 1893     MasterCard (Digitada)
+
+5201 5610 5002 4014     MasterCard (Chip & PIN)
+
+5577 2700 0428 6630     MasterCard (Tarja)
+
+5138 6920 3612 5449     MasterCard Maestro (Débito)
+
+
+
+
+Cartoes ruins
+Número	Descrição
+4556 6299 7266 8582     As transações com este cartão serão sempre recusadas com um código de "cartão declinado".
+
+6011 4578 1994 0087     A transação será recusada com um código de "invalid_card_number".
+
+4929 7104 2663 7678     A transação será recusada com um código "expired_card_error".
+
+4710 4267 4321 6178     A transação será recusada com um código "service_request_timeout".
+
+
+
+
+
+Configurações
+O que precisamos para fazer chamas a API
+Abaixoestão os dados que precisamos para fazer as chamadas às APIs.
+
+● Marketplace_id = 3249465a7753536b62545a6a684b0000
+● Chave pública = zpk_test_EzCkzFFKibGQU6HFq7EYVuxI
+
+
+
+
+{
+  "id": "6ddfc1b3cc2c4922a7a4f21f0818722c",
+  "status": "active",
+  "resource": "buyer",
+  "account_balance": "0.00",
+  "current_balance": "0.00",
+  "first_name": "Alberto",
+  "last_name": "miranda",
+  "taxpayer_id": "07990248131",
+  "description": "paymentData",
+  "email": "allowski@gmail.com",
+  "phone_number": null,
+  "facebook": null,
+  "twitter": null,
+  "address": {
+    "line1": "Rua Bartolomeu de Gusmão 1044, a",
+    "line2": null,
+    "line3": null,
+    "neighborhood": "Centro",
+    "city": "Foz do Iguaçu",
+    "state": "PR",
+    "postal_code": "85851160",
+    "country_code": "BR"
+  },
+  "delinquent": false,
+  "payment_methods": null,
+  "default_debit": null,
+  "default_credit": null,
+  "default_receipt_delivery_method": null,
+  "uri": "/v1/marketplaces/3249465a7753536b62545a6a684b0000/buyers/6ddfc1b3cc2c4922a7a4f21f0818722c",
+  "metadata": {},
+  "created_at": "2019-02-07T02:39:03+00:00",
+  "updated_at": "2019-02-07T02:39:03+00:00"
+},

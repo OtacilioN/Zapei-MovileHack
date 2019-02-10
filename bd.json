@@ -1,0 +1,10 @@
+{
+    "mycow": {
+        "id_pagamento": "idmycowpa",
+        "id_telegram": "idmycowte"
+    },
+    "jose": {
+        "id_pagamento": "idmycowpa",
+        "id_telegram": "idmycowte"
+    }
+}
