@@ -67,10 +67,8 @@ app.post('/comanda', (req, res) => {
 });
 //Webhook for payment updates
 app.post('/update', (req, res) => {
-  console.log("UPDATE");
   let body = req.body; 
   let value = body.value;
-  console.log(value);
   let thing = body.name;
   let id_telegram_to = body.id_to;
   let id_telegram_from = body.id_from;
@@ -112,7 +110,6 @@ app.post('/', (req, res) => {
 
     request(options, function (error, response, body) {
       let url = "https://api.telegram.org/file/bot646793165:AAEkrhpby9yFrbtbtJ1Agl9anLDXqGu1dtg/" + JSON.parse(response.body).result.file_path
-      console.log(url);
       
       //READ THE QR Code
       Jimp.read(url, function(err, image) {
@@ -221,6 +218,7 @@ async function processAction(sessionId, action, parameters, queryResult){
     await doGetResponse(options);
   }
   
+  //Close the frictionless session
   else if (action === "fecharComanda"){
     let id_telegram_to = bd[sessionId].payments.place;
     if (id_telegram_to && bd[sessionId].payments.value > 0){
@@ -240,13 +238,12 @@ async function processAction(sessionId, action, parameters, queryResult){
     }
   }
   
+  //Receie how much oney you have on your wallet
   else if (action == "getSaldo"){
-    console.log("GET SALDO");
     marketplace = typeof marketplace !== 'undefined' ?  marketplace : "3249465a7753536b62545a6a684b0000";
     authuser = typeof authuser !== 'undefined' ? authuser : "zpk_test_EzCkzFFKibGQU6HFq7EYVuxI";
     let seller_id = bd[sessionId].id_pagamento;
     var seller_info = seeBuyer(seller_id);
-    console.log(seller_info);
     sendMessage(sessionId, "Seu saldo é: R$" + String(seller_info['current_balance']));
   }
   
@@ -255,19 +252,15 @@ async function processAction(sessionId, action, parameters, queryResult){
     console.log("PAGAMENTO");
     var value = 7;
     var name = "";
-    console.log("go");
     if(queryResult.outputContexts[0]){
-      console.log(queryResult.outputContexts[0].parameters);
       name = queryResult.outputContexts[0].parameters.fields['any.original'].stringValue;
       value = queryResult.outputContexts[0].parameters.fields['number.original'].stringValue;
     }
     //Get the value and the senders username
     if (parameters.fields.number){
       value = parameters.fields.number.numberValue;
-      console.log("value found")
     }
     if (parameters.fields.any){
-       console.log("any found");
        name = parameters.fields.any.stringValue.replace("@", "");
     }
     
@@ -346,7 +339,7 @@ async function sendSMS(message, number){
     }
 }
 
-//Saldo
+//Receive credit from buyer, if not a buyer get as seller.
 function seeBuyer(buyer_id) {
   var xhr = new XMLHttpRequest();
   xhr.withCredentials = true;
@@ -378,6 +371,7 @@ function seeSeller(buyer_id) {
     return JSON.parse(xhr.responseText);
   }
 }
+
 /***************USEFULL SNIPPETS*********************/
 // let de = '039662d78b5d45d486a56196037c5213';
 // let para = '3ffe8e0226e4413a82e0bfaf5c9df243'
