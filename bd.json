@@ -15,8 +15,8 @@
         "numero": "5581997307749"
     },
     "otacilion": {
-        "id_pagamento": "",
-        "id_telegram": "",
+        "id_pagamento": "2a61f7069d354f3f8ca2bb16ad417c86",
+        "id_telegram": "484030385",
         "numero": "5581999597078"
     },
     "bandeira": {
@@ -32,6 +32,15 @@
            "value": 0,
            "place": ""
          }      
+    },
+    "484030385": {
+        "id_pagamento": "2a61f7069d354f3f8ca2bb16ad417c86",
+        "id_telegram": "484030385",
+        "username": "otacilion",
+         "payments" : {
+           "value": 0,
+           "place": ""
+         }
     },
     "420728565": {
         "id_pagamento": "039662d78b5d45d486a56196037c5213",
