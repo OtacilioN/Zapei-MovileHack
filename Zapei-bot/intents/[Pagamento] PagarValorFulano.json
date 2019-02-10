@@ -1,0 +1,68 @@
+{
+  "id": "f33537e3-67ef-4a84-b3fa-2dd345a33f2c",
+  "name": "[Pagamento] PagarValorFulano",
+  "auto": true,
+  "contexts": [],
+  "responses": [
+    {
+      "resetContexts": false,
+      "action": "pagamento",
+      "affectedContexts": [],
+      "parameters": [
+        {
+          "id": "dc864ca0-c87c-4684-af4f-7bfbd38af2ff",
+          "required": true,
+          "dataType": "@sys.number",
+          "name": "number",
+          "value": "$number",
+          "prompts": [
+            {
+              "lang": "pt-br",
+              "value": "Quanto?"
+            }
+          ],
+          "isList": false
+        },
+        {
+          "id": "459b156a-edbb-47d7-ba86-4a5de9d7f857",
+          "required": true,
+          "dataType": "@sys.any",
+          "name": "any",
+          "value": "$any",
+          "prompts": [
+            {
+              "lang": "pt-br",
+              "value": "À quem?"
+            }
+          ],
+          "isList": false
+        }
+      ],
+      "messages": [
+        {
+          "type": 0,
+          "lang": "pt-br",
+          "speech": [
+            "Ok!",
+            "Certo!",
+            "Beleza!"
+          ]
+        },
+        {
+          "type": 0,
+          "lang": "pt-br",
+          "speech": "O pagamento solicitado foi concluído. Enviamos o comprovante por SMS 😉"
+        }
+      ],
+      "defaultResponsePlatforms": {
+        "telegram": true
+      },
+      "speech": []
+    }
+  ],
+  "priority": 500000,
+  "webhookUsed": false,
+  "webhookForSlotFilling": false,
+  "fallbackIntent": false,
+  "events": []
+}
