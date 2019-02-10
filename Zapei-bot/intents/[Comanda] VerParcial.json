@@ -1,0 +1,35 @@
+{
+  "id": "2b206650-5b9e-4698-991d-3fda40ae4cf5",
+  "parentId": "a604c93b-c742-4080-8fbb-9f20d71acdde",
+  "rootParentId": "a604c93b-c742-4080-8fbb-9f20d71acdde",
+  "name": "[Comanda] VerParcial",
+  "auto": true,
+  "contexts": [
+    "ComandaGerarComanda-followup"
+  ],
+  "responses": [
+    {
+      "resetContexts": false,
+      "action": "verParcial",
+      "affectedContexts": [],
+      "parameters": [],
+      "messages": [
+        {
+          "type": 0,
+          "lang": "pt-br",
+          "speech": "Aqui está a conta parcial da sua fatura!"
+        }
+      ],
+      "defaultResponsePlatforms": {
+        "telegram": true
+      },
+      "speech": []
+    }
+  ],
+  "priority": 500000,
+  "webhookUsed": false,
+  "webhookForSlotFilling": false,
+  "lastUpdate": 1508189244539,
+  "fallbackIntent": false,
+  "events": []
+}

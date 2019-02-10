@@ -1,0 +1,52 @@
+{
+  "id": "a604c93b-c742-4080-8fbb-9f20d71acdde",
+  "name": "[Comanda] GerarComanda",
+  "auto": true,
+  "contexts": [],
+  "responses": [
+    {
+      "resetContexts": false,
+      "action": "gerarComanda",
+      "affectedContexts": [
+        {
+          "name": "ComandaGerarComanda-followup",
+          "parameters": {},
+          "lifespan": 2
+        }
+      ],
+      "parameters": [
+        {
+          "id": "f982de2e-cfa8-4e40-be80-e6a64aafdcdc",
+          "dataType": "@sys.number",
+          "name": "number",
+          "value": "$number",
+          "isList": false
+        }
+      ],
+      "messages": [
+        {
+          "type": 0,
+          "lang": "pt-br",
+          "speech": [
+            "Legal! Sua comanda foi criada.",
+            "Beleza! Já criamos sua comanda."
+          ]
+        },
+        {
+          "type": 0,
+          "lang": "pt-br",
+          "speech": "Quando você quiser pedir algo, mostre seu QR Code para a pessoa que estiver te atendendo. Se quiser verificar sua conta parcial ou finalizar a comanda, é só dizer! 😉"
+        }
+      ],
+      "defaultResponsePlatforms": {
+        "telegram": true
+      },
+      "speech": []
+    }
+  ],
+  "priority": 500000,
+  "webhookUsed": false,
+  "webhookForSlotFilling": false,
+  "fallbackIntent": false,
+  "events": []
+}

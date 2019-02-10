@@ -1,0 +1,79 @@
+[
+  {
+    "id": "dd8b123c-3ea6-4822-9ed6-618684eeecab",
+    "data": [
+      {
+        "text": "fechar a comanda",
+        "userDefined": false
+      }
+    ],
+    "isTemplate": false,
+    "count": 0
+  },
+  {
+    "id": "7573bd07-115f-4372-83c3-144815a6dff4",
+    "data": [
+      {
+        "text": "terminar",
+        "userDefined": false
+      }
+    ],
+    "isTemplate": false,
+    "count": 0
+  },
+  {
+    "id": "bc9815bc-0ea6-47e4-b846-c66523b12718",
+    "data": [
+      {
+        "text": "pagar comanda",
+        "userDefined": false
+      }
+    ],
+    "isTemplate": false,
+    "count": 0
+  },
+  {
+    "id": "35dfa0f3-1c9e-487d-b11f-d4208d208dca",
+    "data": [
+      {
+        "text": "fechar comanda",
+        "userDefined": false
+      }
+    ],
+    "isTemplate": false,
+    "count": 0
+  },
+  {
+    "id": "80bc5e02-6ba7-4851-bca7-de1894e5b8e1",
+    "data": [
+      {
+        "text": "finalizar comanda",
+        "userDefined": false
+      }
+    ],
+    "isTemplate": false,
+    "count": 0
+  },
+  {
+    "id": "abb62f95-f075-499c-bcdc-e644d8f4b4e2",
+    "data": [
+      {
+        "text": "encerrar comanda",
+        "userDefined": false
+      }
+    ],
+    "isTemplate": false,
+    "count": 0
+  },
+  {
+    "id": "119b1849-f1e3-4a25-8418-765ce50c3e9d",
+    "data": [
+      {
+        "text": "finalizar",
+        "userDefined": false
+      }
+    ],
+    "isTemplate": false,
+    "count": 0
+  }
+]

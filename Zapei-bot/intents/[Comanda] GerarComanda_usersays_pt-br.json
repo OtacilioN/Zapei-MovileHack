@@ -1,0 +1,67 @@
+[
+  {
+    "id": "aeb93962-6320-4272-ae52-fa5813aaed4a",
+    "data": [
+      {
+        "text": "abrir ",
+        "userDefined": false
+      },
+      {
+        "text": "uma",
+        "alias": "number",
+        "meta": "@sys.number",
+        "userDefined": false
+      },
+      {
+        "text": " comanda",
+        "userDefined": false
+      }
+    ],
+    "isTemplate": false,
+    "count": 0
+  },
+  {
+    "id": "201400d6-443a-425a-9b71-59b869d8aedc",
+    "data": [
+      {
+        "text": "comanda",
+        "userDefined": false
+      }
+    ],
+    "isTemplate": false,
+    "count": 0
+  },
+  {
+    "id": "3e1497b0-b2c9-4787-9875-7a91976536bf",
+    "data": [
+      {
+        "text": "gerar comanda",
+        "userDefined": false
+      }
+    ],
+    "isTemplate": false,
+    "count": 0
+  },
+  {
+    "id": "170972ca-159f-4d05-bec7-ebc1228090f5",
+    "data": [
+      {
+        "text": "quero gerar",
+        "userDefined": false
+      }
+    ],
+    "isTemplate": false,
+    "count": 0
+  },
+  {
+    "id": "0a948a5e-f5b5-405e-bb05-76ea811f53bc",
+    "data": [
+      {
+        "text": "gerar",
+        "userDefined": false
+      }
+    ],
+    "isTemplate": false,
+    "count": 0
+  }
+]
