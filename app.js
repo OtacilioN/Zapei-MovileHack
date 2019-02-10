@@ -45,6 +45,7 @@ app.use('/public', express.static(__dirname + '/public'));
 
 
 //Routes
+//Webhook for frictionless payments
 app.post('/comanda', (req, res) => {
   let body = req.body; 
   let value = body.value;
@@ -61,6 +62,8 @@ app.post('/comanda', (req, res) => {
   sendMessage(id_telegram_to, "Você recebeu " + String(value) + " reais de " + username_from);
   sendSMS("Você recebeu " + String(value) + " reais de " + username_from, number_to); 
 });
+
+//Webhook for telegram messages
 app.post('/', (req, res) => {
   let body = req.body;
   let ID = body.message.from.id; //The Telegram Sender ID
