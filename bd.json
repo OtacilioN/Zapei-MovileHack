@@ -1,10 +1,34 @@
 {
-    "mycow": {
-        "id_pagamento": "idmycowpa",
-        "id_telegram": "idmycowte"
+    "michaelbarney": {
+        "id_pagamento": "039662d78b5d45d486a56196037c5213",
+        "id_telegram": "420728565",
+        "numero": "5581998286036"
     },
-    "jose": {
-        "id_pagamento": "idmycowpa",
-        "id_telegram": "idmycowte"
+    "penelopearaujo": {
+        "id_pagamento": "3ffe8e0226e4413a82e0bfaf5c9df243",
+        "id_telegram": "119447460",
+        "numero": "5581997513631"
+    },
+    "izabelacmelo": {
+        "id_pagamento": "a594d1ca98824957b529fadb54e8a1c4",
+        "id_telegram": "309489692",
+        "numero": "5581997307749"
+    },
+  
+  
+    "420728565": {
+        "id_pagamento": "039662d78b5d45d486a56196037c5213",
+        "id_telegram": "420728565",
+        "username": "michaelbarney"
+    },
+    "119447460": {
+        "id_pagamento": "3ffe8e0226e4413a82e0bfaf5c9df243",
+        "username": "penelopearaujo",
+        "numero": "5581997513631"
+    },
+    "309489692": {
+        "id_pagamento": "a594d1ca98824957b529fadb54e8a1c4",
+        "username": "izabelacmelo",
+        "numero": "5581997307749"
     }
 }
