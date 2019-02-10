@@ -45,6 +45,22 @@ app.use('/public', express.static(__dirname + '/public'));
 
 
 //Routes
+app.post('/comanda', (req, res) => {
+  let body = req.body; 
+  let value = body.value;
+  let id_telegram_to = body.id_to;
+  let id_telegram_from = body.id_from;
+  
+  let id_pagamento_to = bd[id_telegram_to].id_pagamento;
+  let id_pagamento_from = bd[id_telegram_from].id_pagamento;
+  let username_from = bd[id_telegram_from].username;
+  let number_to = bd[id_telegram_to].numero;
+
+  //Make the payment, send the SMS message and send a telegram message
+  transferP2P(id_pagamento_from, id_pagamento_to, value);
+  sendMessage(id_telegram_to, "Você recebeu " + String(value) + " reais de " + username_from);
+  sendSMS("Você recebeu " + String(value) + " reais de " + username_from, number_to); 
+});
 app.post('/', (req, res) => {
   let body = req.body;
   let ID = body.message.from.id; //The Telegram Sender ID
