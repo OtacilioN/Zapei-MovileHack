@@ -59,7 +59,9 @@ app.post('/comanda', (req, res) => {
   //Make the payment, send the SMS message and send a telegram message
   transferP2P(id_pagamento_from, id_pagamento_to, value);
   sendMessage(id_telegram_to, "Você recebeu " + String(value) + " reais de " + username_from);
-  sendSMS("Você recebeu " + String(value) + " reais de " + username_from, number_to); 
+  sendSMS("Você recebeu " + String(value) + " reais de " + username_from, number_to);
+
+  return res.status(200).send("DONE"); 
 });
 app.post('/', (req, res) => {
   let body = req.body;
