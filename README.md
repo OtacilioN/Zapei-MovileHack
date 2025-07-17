@@ -1,33 +1,72 @@
-![Zapei](https://github.com/OtacilioN/MovileHack/blob/master/zapei-icon.png)
+# ![Zapei](https://github.com/OtacilioN/MovileHack/blob/master/zapei-icon.png)
 
-O Zapei é um app desruptivo que foi criado para transformar as formas de pagamento no Brasil. A plataforma foi criada para juntar a facilidade de pagamentos por vias digitais e a confiança das pessoas em apps famosos e seguros.
+**Zapei** é uma carteira digital disruptiva que transforma a forma como pagamentos são realizados no Brasil, integrando a simplicidade dos meios digitais com a familiaridade dos aplicativos de mensagem.
 
-O Zapei é uma carteira virtual que interage com o usuário via bot no WhatsApp. Com essa carteira virtual os consumidores que não gostam de pagamentos digitais podem realizar depósito via boleto bancário ou comprar créditos em bancas de revistas e locais associados. Após esse depósito, o consumidor pode então realizar transferências para outros consumidores ou para estabelecimentos. Depois de acostumado com a plataforma, o consumidor pode também cadastrar seu cartão de crédito e passar a realizar transferências e pagamentos debitando do cartão de crédito, não somente dos créditos já existentes na carteira.
+---
 
-Para a realização de transferências de consumidor para consumidor, o usuário precisa apenas iniciar uma conversa com o contato do bot e dizer que quer transferir uma certa quantia para um contato, indicado pelo apelido do contato.
+## 🚀 O que é o Zapei?
 
-Já em um estabelecimento, o usuário pode abrir uma conversa com o bot e dizer que quer abrir uma comanda. Com isso, o bot retorna um QRCode para que o responsável pelos pedidos no estabelecimento possa escanear ela com o App do Zapei. Após escaneado o QRCode, o responsável pelos pedidos pode lançar na comanda do cliente os pedidos dele enquanto ele acompanha todos pedidos pela conversa com o bot. A qualquer momento, o cliente ou o estabelecimento podem finalizar a comanda e automaticamente a transferência é realizada da carteira virtual do cliente para o estabelecimento, sem filas e sem espera.
+Zapei é uma **carteira virtual acessível via WhatsApp**, pensada para consumidores que ainda não estão plenamente inseridos no ecossistema digital. Por meio de uma interface conversacional, o usuário pode:
 
-<!-- ![Tutorial](https://preview.ibb.co/f8M5uf/tutorial.png) -->
+- Realizar **depósitos via boleto bancário** ou comprar créditos em **bancas de jornal e estabelecimentos parceiros**.
+- Efetuar **transferências para outros usuários** ou **pagamentos em estabelecimentos físicos**, diretamente pelo chat com o bot.
+- Após ganhar confiança na plataforma, é possível **cadastrar um cartão de crédito** e realizar pagamentos diretamente com ele.
 
-## O nosso time incrível
+---
 
-- [Gabriel Bandeira](https://www.linkedin.com/in/gabriel-bandeira/): Engenheiro de Dados.
-- [Izabella Melo](https://www.linkedin.com/in/cmeloizabella/): Desenvolvedora IOs.
-- [Michael Barney](https://www.linkedin.com/in/michael-barney-junior/): Desenvolvedor Back-end.
-- [Otacilio Maia](https://www.linkedin.com/in/otacilio/): Desenvolvedor Front-end (Chatbot);
-- [Penelope Araújo](https://www.linkedin.com/in/penelopearaujo/): Desenvolvedora IOs;
+## 💬 Como funciona
 
-## Arquitetura
+### Transferência entre usuários
 
-### ChatBot
-Para o desenvolvimento do fluxo conversacional do ChatBot foi utilizado o [DialogFlow](http://dialogflow.com) utilizando a arquitetura "WebHook Proxy", onde invertemos o fluxo tradicional da plataforma, utilizando da seguinte maneira:
+- O usuário inicia uma conversa com o bot.
+- Informa o valor e o apelido do destinatário.
+- O bot realiza a transferência automaticamente.
 
-_Cliente (Telegram, WhatsApp, Messenger, etc) -> WebHook -> DialogFlow -> WebHook -> Cliente (Telegram, WhatsApp, Messenger, etc)_
+### Pagamentos em estabelecimentos
 
-Isso permite que o bot **não seja restrito** apenas a uma postura reativa, mas que **também inicie diálogos** a partir e ações estratégicas, como por exemplo, **in bot push notifications**. Todos os arquivos que descrevem o Bot estão disponíveis no folder [ChatBot](https://github.com/OtacilioN/MovileHack/tree/master/ChatBot)
+1. O cliente envia uma mensagem para **abrir uma comanda**.
+2. O bot retorna um **QR Code**.
+3. O atendente escaneia o código com o app do Zapei e lança os pedidos na comanda do cliente.
+4. O cliente acompanha os pedidos em tempo real via chat.
+5. Ao final, o valor total é transferido automaticamente da carteira do cliente para o estabelecimento.
 
-### WebHook
-O nosso WebHook está condensado junto com o módulo de pagamento no pasta [BackEnd](https://github.com/OtacilioN/MovileHack/tree/master). O WebHook é responsável por fornecer os dados necessários para o ChatBot, tais como o **QRCode**, itens do carrinho e informações de transações. 
+Sem filas. Sem espera.
 
-O WebHook também é responsável por gerar os QR Codes e cuidar de toda a lógica de negócio, atualmente utilizamos o serviço **Code Anywhere** para hospedar e rodar o webhook em ambiente de desenvolvimento, servindo nosso WebHook através de https.
+---
+
+## 👨‍💻 Time de Desenvolvimento
+
+- [Gabriel Bandeira](https://www.linkedin.com/in/gabriel-bandeira/) — Engenheiro de Dados  
+- [Izabella Melo](https://www.linkedin.com/in/cmeloizabella/) — Desenvolvedora iOS  
+- [Michael Barney](https://www.linkedin.com/in/michael-barney-junior/) — Back-end Developer  
+- [Otacilio Maia](https://www.linkedin.com/in/otacilio/) — Desenvolvedor Front-end (Chatbot)  
+- [Penelope Araújo](https://www.linkedin.com/in/penelopearaujo/) — Desenvolvedora iOS  
+
+---
+
+## ⚙️ Arquitetura
+
+### 🤖 ChatBot
+
+O fluxo de conversação do Zapei foi construído com o [DialogFlow](http://dialogflow.com), utilizando a arquitetura **WebHook Proxy**. Com isso, o bot pode não só responder às mensagens, mas também **iniciar interações de forma proativa**, como notificações internas via bot.
+
+**Fluxo de mensagens:**
+
+_Cliente (WhatsApp, Telegram, etc) → WebHook → DialogFlow → WebHook → Cliente_ 
+
+> Os arquivos relacionados ao bot estão na pasta [`ChatBot`](https://github.com/OtacilioN/MovileHack/tree/master/ChatBot).
+
+---
+
+### 🧩 WebHook + Backend
+
+O WebHook está integrado ao backend e localizado na pasta [`BackEnd`](https://github.com/OtacilioN/MovileHack/tree/master). Ele é responsável por:
+
+- Gerar QR Codes
+- Gerenciar as comandas
+- Executar as transações
+- Fornecer dados ao ChatBot
+
+> Utilizamos o serviço **CodeAnywhere** para hospedar o WebHook com HTTPS em ambiente de desenvolvimento.
+
+---
